@@ -56,7 +56,7 @@ func tStoF(tile tileState) finish {
 	}
 	return fNil
 }
-func (g *game) checkTiles(x0, y0,x1,y1,x2,y2 int) bool {
+func (g *game) checkTiles(x0, y0, x1, y1, x2, y2 int) bool {
 	if g.tiles[x0][y0] == g.tiles[x1][y1] &&
 		g.tiles[x1][y1] == g.tiles[x2][y2] &&
 		g.tiles[x0][y0] != tSEmpty {
