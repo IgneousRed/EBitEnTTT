@@ -1,13 +1,13 @@
 package main
 
 import (
-	eb "github.com/IgneousRed/EBitEn"
+	et "github.com/IgneousRed/EduTen"
 	m "github.com/IgneousRed/gomisc"
-	ebt "github.com/hajimehoshi/ebiten/v2"
+	eb "github.com/hajimehoshi/ebiten/v2"
 )
 
 var windowSize = m.Vec2I(600, 600)
-var font eb.Font
+var font et.Font
 
 type tileState int
 
@@ -89,16 +89,16 @@ func (g *game) updateVictory() bool {
 }
 func (g *game) Update() {
 	if g.finish != fNil {
-		if eb.KeysDown(ebt.KeySpace) {
+		if et.KeysDown(eb.KeySpace) {
 			*g = gameInit()
 		}
 		return
 	}
-	g.cursorUpdate(eb.KeysDown(ebt.KeyArrowRight, ebt.KeyD), m.Vec2I(1, 0))
-	g.cursorUpdate(eb.KeysDown(ebt.KeyArrowUp, ebt.KeyW), m.Vec2I(0, 1))
-	g.cursorUpdate(eb.KeysDown(ebt.KeyArrowLeft, ebt.KeyA), m.Vec2I(-1, 0))
-	g.cursorUpdate(eb.KeysDown(ebt.KeyArrowDown, ebt.KeyS), m.Vec2I(0, -1))
-	if eb.KeysDown(ebt.KeySpace) && *g.tile(g.cursor) == tSEmpty {
+	g.cursorUpdate(et.KeysDown(eb.KeyArrowRight, eb.KeyD), m.Vec2I(1, 0))
+	g.cursorUpdate(et.KeysDown(eb.KeyArrowUp, eb.KeyW), m.Vec2I(0, 1))
+	g.cursorUpdate(et.KeysDown(eb.KeyArrowLeft, eb.KeyA), m.Vec2I(-1, 0))
+	g.cursorUpdate(et.KeysDown(eb.KeyArrowDown, eb.KeyS), m.Vec2I(0, -1))
+	if et.KeysDown(eb.KeySpace) && *g.tile(g.cursor) == tSEmpty {
 		*g.tile(g.cursor) = tSX
 		g.filled++
 		if g.updateVictory() {
@@ -119,41 +119,41 @@ func tilePos(pos m.Vec[int]) m.Vec[int] {
 	return m.Vec2I(200, 200).Mul(pos)
 }
 func (g *game) Draw() {
-	eb.DrawLineI(m.Vec2I(200, 0), m.Vec2I(200, 600), 1, eb.White)
-	eb.DrawLineI(m.Vec2I(400, 0), m.Vec2I(400, 600), 1, eb.White)
-	eb.DrawLineI(m.Vec2I(0, 200), m.Vec2I(600, 200), 1, eb.White)
-	eb.DrawLineI(m.Vec2I(0, 400), m.Vec2I(600, 400), 1, eb.White)
+	et.DrawLineI(m.Vec2I(200, 0), m.Vec2I(200, 600), 1, et.White)
+	et.DrawLineI(m.Vec2I(400, 0), m.Vec2I(400, 600), 1, et.White)
+	et.DrawLineI(m.Vec2I(0, 200), m.Vec2I(600, 200), 1, et.White)
+	et.DrawLineI(m.Vec2I(0, 400), m.Vec2I(600, 400), 1, et.White)
 	cursorStart := tilePos(g.cursor).Add(m.Vec2I(10, 10))
 	cursorEnd := cursorStart.Add(m.Vec2I(180, 180))
-	eb.DrawLineI(cursorStart, m.Vec2I(cursorStart[0], cursorEnd[1]), 1, eb.Red)
-	eb.DrawLineI(cursorStart, m.Vec2I(cursorEnd[0], cursorStart[1]), 1, eb.Red)
-	eb.DrawLineI(cursorEnd, m.Vec2I(cursorEnd[0], cursorStart[1]), 1, eb.Red)
-	eb.DrawLineI(cursorEnd, m.Vec2I(cursorStart[0], cursorEnd[1]), 1, eb.Red)
+	et.DrawLineI(cursorStart, m.Vec2I(cursorStart[0], cursorEnd[1]), 1, et.Red)
+	et.DrawLineI(cursorStart, m.Vec2I(cursorEnd[0], cursorStart[1]), 1, et.Red)
+	et.DrawLineI(cursorEnd, m.Vec2I(cursorEnd[0], cursorStart[1]), 1, et.Red)
+	et.DrawLineI(cursorEnd, m.Vec2I(cursorStart[0], cursorEnd[1]), 1, et.Red)
 	for x := range g.tiles {
 		for y, tile := range g.tiles[x] {
 			pos := tilePos(m.Vec2I(x, y)).Add(m.Vec2I(30, 20))
 			if tile == tSX {
-				eb.DrawTextI(font, 200, pos, "X", eb.Green)
+				et.DrawTextI(font, 200, pos, "X", et.Green)
 			} else if tile == tSO {
-				eb.DrawTextI(font, 200, pos, "O", eb.Blue)
+				et.DrawTextI(font, 200, pos, "O", et.Blue)
 			}
 		}
 	}
 	if g.finish != fNil {
 		if g.finish == fHumanWin {
-			eb.DrawTextI(font, 20, m.Vec2I(250, 310), "Human Win", eb.Magenta)
+			et.DrawTextI(font, 20, m.Vec2I(250, 310), "Human Win", et.Magenta)
 		} else if g.finish == fBotWin {
-			eb.DrawTextI(font, 20, m.Vec2I(250, 310), "Bot Win", eb.Magenta)
+			et.DrawTextI(font, 20, m.Vec2I(250, 310), "Bot Win", et.Magenta)
 		} else if g.finish == fDraw {
-			eb.DrawTextI(font, 20, m.Vec2I(250, 310), "DRAW", eb.Magenta)
+			et.DrawTextI(font, 20, m.Vec2I(250, 310), "DRAW", et.Magenta)
 		}
-		eb.DrawTextI(font, 20, m.Vec2I(250, 290), "Press Space", eb.Magenta)
+		et.DrawTextI(font, 20, m.Vec2I(250, 290), "Press Space", et.Magenta)
 	}
 }
 func main() {
-	f, err := eb.FontNew("FiraCode-Medium.ttf")
+	f, err := et.FontNew("FiraCode-Medium.ttf")
 	m.FatalErr("", err)
 	font = f
 	g := gameInit()
-	eb.InitGame("ttt", windowSize, &g)
+	et.InitGame("ttt", windowSize, &g)
 }
