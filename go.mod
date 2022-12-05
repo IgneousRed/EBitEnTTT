@@ -1,4 +1,4 @@
-module EduTenTTT
+module github.com/IgneousRed/EduTenTTT
 
 go 1.19
 
